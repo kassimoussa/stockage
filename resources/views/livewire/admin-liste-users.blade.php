@@ -129,7 +129,7 @@
             </tbody>
         </table>
 
-        <x-delete-modal delmodal="delmodal" message="Etes-vous sûr de vouloir supprimer l'user " />
+        <x-delete-modal delmodal="delmodal" message="Etes-vous sûr de vouloir supprimer l'user "  delf="delete" />
         <div class="modal fade" id="editmodal" tabindex="-1" aria-hidden="true" wire:ignore.self>
             <div class="modal-dialog modal-lg modal-dialog-centered " role="document">
                 <div class="modal-content">
