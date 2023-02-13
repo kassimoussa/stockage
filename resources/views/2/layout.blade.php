@@ -1,11 +1,11 @@
-{{-- @php
+@php
     use App\Models\User;
     $user = User::where('id', session('id'))->first();
     if (session('level') != $user->level) {
         session()->forget('level');
         session()->put('level', $user->level);
     }
-@endphp --}}
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -15,12 +15,13 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{ asset('favicon.ico') }}">
 
-    <title> {{-- {{ $page }} --}} Title</title>
+    <title> {{ $page }} </title>
 
     @vite(['resources/js/app.js'])
 
     @livewireStyles
     <!-- Styles -->
+
     <link rel="stylesheet" href="{{ asset('css/card-style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
@@ -29,28 +30,28 @@
     <!-- Scripts -->
     <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
     <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('js/dataTables.bootstrap5.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
+    @stack('scripts')
     <style>
         body {
             background: #f1f2f5;
         }
 
         .nav_link:hover {
-            color: black !important;
+            color: white !important;
             font-weight: bold;
             font-size: 18px;
 
         }
 
         .nav_link {
-            color: white !important;
+            color: black !important;
             font-size: 18px;
         }
 
         .activee {
-            color: black !important;
+            color: white !important;
             font-weight: bold;
             font-size: 18px;
         }
@@ -85,6 +86,12 @@
         a {
             text-decoration: none
         }
+
+        .dataTables_filter {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            float: left;
+        }
     </style>
 </head>
 
@@ -103,17 +110,17 @@
             <div class="collapse navbar-collapse " id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link nav_link activee
-                        {{-- @if ($pageSlug == 'create_employe') {{ 'activee' }} @endif --}} "
-                            href="/employes/create" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                            title="Ajouter un nouveau employé"> <i class="fas fa-warehouse mx-1"></i>
+                        <a class="nav-link nav_link 
+                        @if ($pageSlug == 'stocks') {{ 'activee' }} @endif "
+                            href="/stocks" {{-- data-bs-toggle="tooltip" data-bs-placement="bottom"
+                            title="Ajouter un nouveau employé" --}}> <i class="fas fa-warehouse mx-1"></i>
                             STOCKS
                         </a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link nav_link activee
-                        {{-- @if ($pageSlug == 'create_employe') {{ 'activee' }} @endif --}} "
+                    {{-- <li class="nav-item">
+                        <a class="nav-link nav_link 
+                        @if ($pageSlug == 'create_employe') {{ 'activee' }} @endif "
                             href="/employes/create" data-bs-toggle="tooltip" data-bs-placement="bottom"
                             title="Ajouter un nouveau employé"> <i class="fas fa-laptop mx-1"></i>
                             ACQUISITION
@@ -121,8 +128,8 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link nav_link activee
-                        {{-- @if ($pageSlug == 'create_employe') {{ 'activee' }} @endif --}} "
+                        <a class="nav-link nav_link 
+                        @if ($pageSlug == 'create_employe') {{ 'activee' }} @endif "
                             href="/employes/create" data-bs-toggle="tooltip" data-bs-placement="bottom"
                             title="Ajouter un nouveau employé"> <i class="fas fa-tools mx-1"></i>
                             INTERVENTION
@@ -130,19 +137,19 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link nav_link activee
-                        {{-- @if ($pageSlug == 'create_employe') {{ 'activee' }} @endif --}} "
+                        <a class="nav-link nav_link 
+                        @if ($pageSlug == 'create_employe') {{ 'activee' }} @endif "
                             href="/employes/create" data-bs-toggle="tooltip" data-bs-placement="bottom"
                             title="Ajouter un nouveau employé"> <i class="fas fa-truck mx-1"></i>
                             LIVRAISON
                         </a>
-                    </li>
+                    </li> --}}
 
                     <li class="nav-item">
-                        <a class="nav-link nav_link activee
-                        {{-- @if ($pageSlug == 'create_employe') {{ 'activee' }} @endif --}} "
-                            href="/employes/create" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                            title="Ajouter un nouveau employé"> <i class="fas fa-user-cog mx-1"></i>
+                        <a class="nav-link nav_link 
+                        @if ($pageSlug == 'admin') {{ 'activee' }} @endif "
+                            href="/admin" {{-- data-bs-toggle="tooltip" data-bs-placement="bottom"
+                            title="Ajouter un nouveau employé" --}}> <i class="fas fa-user-cog mx-1"></i>
                             ADMIN
                         </a>
                     </li>
@@ -171,13 +178,13 @@
  --}}
 
                 </ul>
-                
+
                 <div class="d-flex py-1">
                     <div class="nav-item dropdown dropstart ">
 
                         <h5 class="nav-link nav_link fw-bold   dropdown-toggle " id="user" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            {{--  {{ $user->name }} --}}  <i class="fas fa-user mx-1"></i> Kassim
+                             {{ $user->name }} <i class="fas fa-user mx-1"></i> 
                         </h5>
 
                         <ul class="dropdown-menu dropdown-menu-primary bg-primary" aria-labelledby="user">
@@ -209,6 +216,9 @@
 
 
     <script>
+        window.addEventListener('open-edit-modal', event => {
+            $(".modal").modal('show');
+        })
         window.addEventListener('close-modal', event => {
             $('.modal').modal('hide');
         });
@@ -247,9 +257,8 @@
     </script>
 
 
-
     @livewireScripts
-    <script src="{{ asset('js/alpinejs.min.js') }}"></script>
+    {{-- <script src="{{ asset('js/alpinejs.min.js') }}"></script> --}}
     @yield('script')
 </body>
 

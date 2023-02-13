@@ -3,7 +3,7 @@
 
 <div class="conainer">
 
-    <livewire:stock-liste :site="$site" />
+    <livewire:toggle-stock :site="$site" />
 
 </div>
 

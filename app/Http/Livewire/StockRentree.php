@@ -90,7 +90,7 @@ class StockRentree extends Component
         $rentree->direction = $stock->direction;
         $rentree->service = $stock->service;
         $rentree->submitedby = session('username');
-        $query = $rentree->save();
+        $query = $rentree->save(); 
 
         if ($query) {
             $stock->update(['quantite' => $quantite]);

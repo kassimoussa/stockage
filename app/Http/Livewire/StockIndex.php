@@ -28,6 +28,7 @@ class StockIndex extends Component
         $site->direction = $this->dir;
         $site->service = $this->service;
         $query = $site->save();
+        
         if ($query) {
             $this->close_modal();
             $this->sites = Site::where('direction', $this->dir)->where('service', $this->service)->get();

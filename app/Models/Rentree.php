@@ -10,9 +10,10 @@ class Rentree extends Model
     use HasFactory;
     protected $fillable = [
         'materiel',
+        'model',
+        'num_patrimoine',
         'quantite',
         'date_rentree',
-        'fournisseur',
         'direction',
         'service',
         'site',

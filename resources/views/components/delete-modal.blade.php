@@ -11,7 +11,7 @@
                 <h5 class="text-center">{{ $message }}?</h5>
             </div>
             <div class="modal-footer d-flex justify-content-center">
-                <button class="btn btn-primary fw-bold" wire:click="delete" data-bs-dismiss="modal">Supprimer</button>
+                <button class="btn btn-primary fw-bold" wire:click="{{ $delf }}" data-bs-dismiss="modal">Supprimer</button>
                 <button type="reset" class="btn btn-outline-danger  fw-bold" data-bs-dismiss="modal">Annuler</button>
             </div>
         </div>

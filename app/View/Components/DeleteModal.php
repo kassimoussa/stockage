@@ -11,11 +11,12 @@ class DeleteModal extends Component
      *
      * @return void
      */ 
-    public $delmodal, $message ; 
-    public function __construct($delmodal, $message )
+    public $delmodal, $message, $delf ; 
+    public function __construct($delmodal, $message, $delf )
     {
         $this->delmodal = $delmodal ;
         $this->message = $message ;
+        $this->delf = $delf ;
     }
 
     /**

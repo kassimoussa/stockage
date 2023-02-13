@@ -38,7 +38,9 @@ Route::group(['middleware'=> ['logged']], function(){
         Route::get('/allrentrees/{site}', [StocksController::class, 'allrentrees']);
         Route::get('/allsorties/{site}', [StocksController::class, 'allsorties']);
     
-    }); 
+    });  
+
+    Route::get('/materiels/show/{materiel}', [StocksController::class, 'showMateriel']);
 
     Route::prefix('admin')->group(function (){
         Route::get('/', [UsersController::class, 'liste']);

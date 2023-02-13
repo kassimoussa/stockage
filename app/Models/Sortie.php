@@ -10,6 +10,8 @@ class Sortie extends Model
     use HasFactory;
     protected $fillable = [
         'materiel',
+        'model',
+        'num_patrimoine',
         'quantite',
         'raison',
         'numero_fiche',

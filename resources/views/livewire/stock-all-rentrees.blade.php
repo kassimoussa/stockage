@@ -11,7 +11,6 @@
                 <option value="2022" @if ('2022' == $annee) selected="selected" @endif>2022 </option>
                 <option value="2023" @if ('2023' == $annee) selected="selected" @endif>2023 </option>
                 <option value="2024" @if ('2024' == $annee) selected="selected" @endif>2024 </option>
-
         </select>
 
     </div>

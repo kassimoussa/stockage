@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('id_stock')->nullable();
             $table->string('materiel')->nullable();
+            $table->string('model')->nullable();
+            $table->string('num_patrimoine')->nullable();
             $table->integer('quantite')->nullable();
             $table->string('raison')->nullable();
             $table->timestamp('date_sortie');

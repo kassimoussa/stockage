@@ -1,11 +1,11 @@
-{{-- @php
-    use App\Models\User;
-    $user = User::where('id', session('id'))->first();
-    if (session('level') != $user->level) {
-        session()->forget('level');
-        session()->put('level', $user->level);
-    }
-@endphp --}}
+@php
+use App\Models\User;
+$user = User::where('id', session('id'))->first();
+if (session('level') != $user->level) {
+session()->forget('level');
+session()->put('level', $user->level);
+}
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -24,12 +24,22 @@
 
     <link rel="stylesheet" href="{{ asset('css/card-style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+    
+    {{--<link rel="stylesheet" href="{{ asset('css/select2.min.css') }}" /> 
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css">--}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
 
 
     <!-- Scripts -->
     <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
     <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+    {{-- <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('js/select2.min.js') }}"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>--}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     @stack('scripts')
@@ -111,57 +121,59 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link nav_link 
-                        @if ($pageSlug == 'stocks') {{ 'activee' }} @endif "
-                            href="/stocks" {{-- data-bs-toggle="tooltip" data-bs-placement="bottom"
-                            title="Ajouter un nouveau employé" --}}> <i class="fas fa-warehouse mx-1"></i>
+                        @if ($pageSlug == 'stocks') {{ 'activee' }} @endif " href="/stocks" {{--
+                            data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ajouter un nouveau employé" --}}>
+                            <i class="fas fa-warehouse mx-1"></i>
                             STOCKS
                         </a>
                     </li>
 
                     {{-- <li class="nav-item">
                         <a class="nav-link nav_link 
-                        @if ($pageSlug == 'create_employe') {{ 'activee' }} @endif "
-                            href="/employes/create" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                            title="Ajouter un nouveau employé"> <i class="fas fa-laptop mx-1"></i>
+                        @if ($pageSlug == 'create_employe') {{ 'activee' }} @endif " href="/employes/create"
+                            data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ajouter un nouveau employé"> <i
+                                class="fas fa-laptop mx-1"></i>
                             ACQUISITION
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link nav_link 
-                        @if ($pageSlug == 'create_employe') {{ 'activee' }} @endif "
-                            href="/employes/create" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                            title="Ajouter un nouveau employé"> <i class="fas fa-tools mx-1"></i>
+                        @if ($pageSlug == 'create_employe') {{ 'activee' }} @endif " href="/employes/create"
+                            data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ajouter un nouveau employé"> <i
+                                class="fas fa-tools mx-1"></i>
                             INTERVENTION
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link nav_link 
-                        @if ($pageSlug == 'create_employe') {{ 'activee' }} @endif "
-                            href="/employes/create" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                            title="Ajouter un nouveau employé"> <i class="fas fa-truck mx-1"></i>
+                        @if ($pageSlug == 'create_employe') {{ 'activee' }} @endif " href="/employes/create"
+                            data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ajouter un nouveau employé"> <i
+                                class="fas fa-truck mx-1"></i>
                             LIVRAISON
                         </a>
                     </li> --}}
 
                     <li class="nav-item">
                         <a class="nav-link nav_link 
-                        @if ($pageSlug == 'admin') {{ 'activee' }} @endif "
-                            href="/admin" {{-- data-bs-toggle="tooltip" data-bs-placement="bottom"
-                            title="Ajouter un nouveau employé" --}}> <i class="fas fa-user-cog mx-1"></i>
+                        @if ($pageSlug == 'admin') {{ 'activee' }} @endif " href="/admin" {{-- data-bs-toggle="tooltip"
+                            data-bs-placement="bottom" title="Ajouter un nouveau employé" --}}> <i
+                                class="fas fa-user-cog mx-1"></i>
                             ADMIN
                         </a>
                     </li>
 
-                    {{--    <div class="nav-item dropdown ">
+                    {{-- <div class="nav-item dropdown ">
 
-                        <a class="nav-link nav_link  dropdown-toggle @if ($sup == 'employes') {{ 'activee' }} @endif " id="rapport" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false"> <i class="fas fa-cogs mx-1"></i> ADMIN</a>
+                        <a class="nav-link nav_link  dropdown-toggle @if ($sup == 'employes') {{ 'activee' }} @endif "
+                            id="rapport" role="button" data-bs-toggle="dropdown" aria-expanded="false"> <i
+                                class="fas fa-cogs mx-1"></i> ADMIN</a>
 
                         <ul class="dropdown-menu dropdown-menu-primary bg-primary text-white" aria-labelledby="rapport">
                             <li>
-                                <a class="dropdown-item nav_link @if ($pageSlug == 'index_employe') {{ 'activee' }} @endif" href="/employes">
+                                <a class="dropdown-item nav_link @if ($pageSlug == 'index_employe') {{ 'activee' }} @endif"
+                                    href="/employes">
                                     Listes
                                 </a>
                             </li>
@@ -169,13 +181,14 @@
                                 <hr class="dropdown-divider">
                             </li>
                             <li>
-                                <a class="dropdown-item  nav_link @if ($pageSlug == 'create_employe') {{ 'activee' }} @endif" href="/employes/create">
+                                <a class="dropdown-item  nav_link @if ($pageSlug == 'create_employe') {{ 'activee' }} @endif"
+                                    href="/employes/create">
                                     Ajouter
                                 </a>
                             </li>
                         </ul>
                     </div>
- --}}
+                    --}}
 
                 </ul>
 
@@ -184,7 +197,7 @@
 
                         <h5 class="nav-link nav_link fw-bold   dropdown-toggle " id="user" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            {{--  {{ $user->name }} --}} <i class="fas fa-user mx-1"></i> Kassim
+                            {{ $user->name }} <i class="fas fa-user mx-1"></i>
                         </h5>
 
                         <ul class="dropdown-menu dropdown-menu-primary bg-primary" aria-labelledby="user">
@@ -216,6 +229,13 @@
 
 
     <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+        }); 
+       /*  $(document).ready(function () {
+           $('.selectpicker').selectpicker();
+        });*/
+
         window.addEventListener('open-edit-modal', event => {
             $(".modal").modal('show');
         })

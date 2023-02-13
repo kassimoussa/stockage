@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ListeMarMod;
+use App\Models\Listeobjet;
+use App\Models\MaterielsStock;
 use App\Models\Site;
 use App\Models\Stock;
 use Illuminate\Http\Request;
+use Illuminate\Queue\Listener;
 
 class StocksController extends Controller
 {
@@ -92,6 +96,19 @@ class StocksController extends Controller
         } else {
             return view($level.'.stock.all_sortiee', compact('site'));
         }
+    }
+
+    public function showMateriel(MaterielsStock $materiel)
+    {
+        $level = session('level');
+        $dir = session('dir');
+        $service = session('service');
+        $sih = 'IT HelpDesk';
+        $objet = Listeobjet::find($materiel->objet_id);
+        $marmod = ListeMarMod::find($materiel->marmod_id);
+
+        return view($level.'stock.show_materiel', compact('materiel', 'objet', 'marmod'));
+
     }
 
 }

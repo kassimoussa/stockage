@@ -1,13 +1,18 @@
-<div class="py-3 px-3">
-    <x-loading-indicator />
+<div class="py-3 px-3"> 
 
-    <div class="d-flex justify-content-between mb-4">
-        <h3 class="over-title ">Stock du site {{ $site }} </h3>
-        <div class="btn-group" role="group" aria-label="Basic outlined example">
+    <div class="d-flex justify-content-between my-3 ">
+        <div class="col-6">
+            <div class="input-group  mb-3">
+            <span class="btn btn-dark" >Chercher</span>
+            <input type="text" class="form-control " wire:model="search" placeholder="Par matériel"
+                value="{{ $search }}">
+        </div>
+        </div>
+        <div class="">
             <a role="button" data-bs-toggle="modal" data-bs-target="#addmateriel" type="button"
-                class="btn  btn-outline-dark fw-bold">Ajouter Materiel</a>
-            <a href="{{ url('/stocks/allrentrees', $site)  }}" type="button" class="btn  btn-outline-dark fw-bold">Rentrées</a>
-            <a href="{{ url('/stocks/allsorties', $site)  }}" type="button" class="btn  btn-outline-dark fw-bold">Sorties</a>
+                class="btn  btn-primary fw-bold">
+                <i class="fas fa-plus-circle"></i> Ajouter
+            </a>
         </div>
     </div>
 
@@ -47,15 +52,6 @@
             </div>
 
         </div>
-    </div>
-    <div class="d-flex justify-content-start mb-2">
-        <form action="" class="col-md-6">
-            <div class="input-group  mb-3">
-                <span class="btn btn-dark" >Chercher</span>
-                <input type="text" class="form-control " wire:model="search" placeholder="Par matériel"
-                    value="{{ $search }}">
-            </div>
-        </form>
     </div>
 
     <div>
