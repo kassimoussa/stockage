@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body position-relative">
                 <x-loading-indicator2 />
-                <img src="{{ asset($imgurl) }}" width="100%" height="100%" >
+                <img src="{{ asset($imgurl) }}"  style="width: 100%; height: 100%; oject-fit: cover;"  >
             </div> 
         </div>
     </div>

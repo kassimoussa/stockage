@@ -7,9 +7,9 @@
 
 </div>
 
-    
-    <script>
-        function addInput() {
+
+<script>
+    function addInput() {
             $(document).ready(function() {
                 var maxField = 10; //Input fields increment limitation
                 var addButton = $('.add_button'); //Add button selector
@@ -42,6 +42,7 @@
                 });
             });
         }
-    </script>
+</script>
+
 
 @endsection

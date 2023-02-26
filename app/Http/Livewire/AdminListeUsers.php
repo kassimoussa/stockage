@@ -7,13 +7,19 @@ use Livewire\Component;
 
 class AdminListeUsers extends Component
 {
-    public $dir, $service, $name, $username, $email, $password, $user_id, $level, $ed_name, $ed_username, $ed_email, $ed_password;
+    public $dir, $service, $users, $name, $username, $email, $password, $user_id, $level, $ed_name, $ed_username, $ed_email, $ed_password;
     public $search = "";
 
     public function mount()
     {
         $this->dir = session('direction');
         $this->service = session('service');
+    }
+
+    public function getUsers()
+    {
+        $this->users = User::where('direction', $this->dir)->where('service', $this->service)->where('name', 'Like', '%' . $this->search . '%')->get();
+        
     }
 
     public function close_modal()
@@ -77,7 +83,7 @@ class AdminListeUsers extends Component
             $this->dispatchBrowserEvent('close-modal');
             $this->dispatchBrowserEvent(
                 'alert',
-                ['type' => 'success',  'message' => 'Modif réussi!']
+                ['type' => 'success',  'message' => 'Modif réussie !']
             );
             /* $this->dispatchBrowserEvent('close-modal'); */
         } else {
@@ -107,12 +113,7 @@ class AdminListeUsers extends Component
 
     public function render()
     {
-        $this->users = User::where('direction', $this->dir)->where('service', $this->service)->where('name', 'Like', '%' . $this->search . '%')->get();
-
-        $users = [
-            'users' => $this->users,
-        ];
-
-        return view('livewire.admin-liste-users', $users);
+        $this->getUsers();
+        return view('livewire.admin-liste-users');
     }
 }

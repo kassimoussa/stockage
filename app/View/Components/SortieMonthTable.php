@@ -2,21 +2,22 @@
 
 namespace App\View\Components;
 
-use Carbon\Carbon;
 use Illuminate\View\Component;
+use Carbon\Carbon;
 
-class MonthHeader extends Component
+class SortieMonthTable extends Component
 {
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public $moisc, $moisl, $cnts, $i; 
+    public $moisl, $results, $i, $moisc; 
 
-    public function __construct($moisl, $i)
+    public function __construct($moisl, $i, $results)
     {
         $this->moisl = $moisl ;
+        $this->results = $results ;
         $this->i = $i ;
         $this->moisc = Carbon::now()->format('m');
     }
@@ -28,6 +29,6 @@ class MonthHeader extends Component
      */
     public function render()
     {
-        return view('components.month-header');
+        return view('components.sortie-month-table');
     }
 }

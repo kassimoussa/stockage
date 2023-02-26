@@ -202,6 +202,52 @@
         </div>
     </div>
 
+    <div class="modal fade" id="sortieMateriel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-hidden="true" wire:ignore.self>
+        <div class="modal-dialog modal-lg " role="document">
+            <div class="modal-content">
+                <form wire:submit.prevent="sortie">
+                    <div class="modal-header d-flex justify-content-between">
+                        <h3>Sortie Materiel</h3>
+                        <div class="row" style="text-align: center;">
+                            <div class=" form-group">
+                                <button type="submit" name="submit" class="btn btn-primary fw-bold"
+                                    {{-- data-bs-dismiss="modal" --}}>Enregistrer</button>
+                                <button type="button" class="btn btn-danger fw-bold " wire:click="close_modal"
+                                    data-bs-dismiss="modal"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row my-2">
+                            <div class="col-6 ">
+                                <label for="raison" class="form-label">Raison *</label>
+                                <div class="input-group mb-3 ">
+                                    <span class="input-group-text txt fw-bold bg-primary text-white">
+                                        <i class="fas fa-server"></i>
+                                    </span>
+                                    <input type="text" class="form-control" id="raison"
+                                        wire:model="raison" placeholder="La raison de sortie du materiel " required>
+                                </div>
+                            </div>
+                            <div class="col-6 ">
+                                <label for="date_sortie" class="form-label">Date de sortie *</label>
+                                <div class="input-group mb-3 ">
+                                    <span class="input-group-text txt fw-bold bg-primary text-white">
+                                        <i class="fas fa-server"></i>
+                                    </span>
+                                    <input type="date" class="form-control" id="date_sortie" max='{{ $audj }}'
+                                        wire:model="date_sortie" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
     <div class="col ">
         <table class="table table-bordered border-dark table-striped table-hover table-sm align-middle " id="">
             <thead class="bg-dark text-white text-center">
@@ -227,13 +273,17 @@
                 <tr>
                     <td>{{ $cnt}}</td>
                     <td>{{ $materiel->num_patrimoine }}</td>
-                    <td><img src="{{ asset($materiel->storage_path) }}" width="50" alt="{{ $materiel->filename }}"
+                    <td><img style="width: 60px; height: 60px; oject-fit: cover;" src="{{ asset($materiel->storage_path) }}"  alt="{{ $materiel->filename }}"
                             role="button" wire:click="showImg('{{ $materiel->id }}')" data-bs-toggle="modal"
                             data-bs-target="#imgmodal"> </td>
                     <td>{{ $materiel->category->name }}</td>
                     <td>{{ $materiel->marque->name }}</td>
                     <td>{{ $materiel->model->name }}</td>
                     <td class="td-actions "> 
+                        <a class="btn  " data-bs-toggle="modal" data-bs-target="#sortieMateriel"
+                            wire:click="loadid('{{ $materiel->id }}')" title="Enregister une sortie du materiel">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                        </a>
                         <a class="btn  " data-bs-toggle="modal" data-bs-target="#editMateriel"
                             wire:click="loadid('{{ $materiel->id }}')" title="Modifier la marque">
                             <i class="fas fa-edit"></i>

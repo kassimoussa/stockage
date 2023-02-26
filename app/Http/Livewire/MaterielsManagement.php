@@ -6,6 +6,8 @@ use App\Models\Category;
 use App\Models\Marque;
 use App\Models\Materiel;
 use App\Models\Models;
+use App\Models\SortieMateriel;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -14,17 +16,20 @@ class MaterielsManagement extends Component
 {
     use WithFileUploads;
 
-    public $site, $direction, $service, $materiels, $models, $marques, $categories;
+    public $site, $direction, $service, $submitedby, $materiels, $models, $marques, $categories;
     public $materiel_id, $category_id, $marque_id, $model_id, $num_patrimoine, $status, $filename;
     public $category_id2, $marque_id2, $model_id2, $num_patrimoine2, $filename2, $filename3, $url, $imgUrl;
+    public $raison, $date_sortie, $audj;
     public $search = "";
 
 
     public function mount($site)
     {
+        $this->audj = Carbon::today()->format('Y-m-d');
         $this->site = $site;
         $this->direction = session('direction');
         $this->service = session('service');
+        $this->submitedby = session('username');
         $this->url = "images/addphoto.png";
         $this->imgUrl = "";
     }
@@ -54,18 +59,18 @@ class MaterielsManagement extends Component
     }
 
     public function getModels()
-    { 
+    {
         if ($this->marque_id == null) {
             $this->models = Models::orderBy("name", "asc")->get();
         } else {
             $this->models = Models::where('marque_id', $this->marque_id)->orderBy("name", "asc")->get();
-        } 
+        }
     }
 
     public function close_modal()
     {
         $this->reset([
-            'category_id', 'category_id2', 'marque_id', 'marque_id2', 'model_id', 'model_id2', 'num_patrimoine', 'num_patrimoine2', 'filename', 'filename2',
+            'category_id', 'category_id2', 'marque_id', 'marque_id2', 'model_id', 'model_id2', 'num_patrimoine', 'num_patrimoine2', 'filename', 'filename2', 'raison', 'date_sortie'
         ]);
         $this->url = "images/addphoto.png";
     }
@@ -73,13 +78,14 @@ class MaterielsManagement extends Component
     public function getMateriels()
     {
         $this->materiels = Materiel::where('num_patrimoine', 'Like', '%' . $this->search . '%')
-        ->with('category')->with('marque')
-        ->with('model')
-        ->where('direction', $this->direction)
-        ->where('service', $this->service)
-        ->where('site', $this->site)
-        ->orderBy("num_patrimoine", "asc")
-        ->get();
+            ->with('category')->with('marque')
+            ->with('model')
+            ->where('direction', $this->direction)
+            ->where('service', $this->service)
+            ->where('site', $this->site)
+            ->where('status', "yes")
+            ->orderBy("num_patrimoine", "asc")
+            ->get();
     }
 
 
@@ -176,10 +182,9 @@ class MaterielsManagement extends Component
         $this->marque_id2 = $materiel->marque_id;
         $this->model_id2 = $materiel->model_id;
         $this->num_patrimoine2 = $materiel->num_patrimoine;
-        $this->filename2 = $materiel->filename; 
-        $this->filename3 = $materiel->filename; 
-        if($materiel->storage_path != null)
-        {
+        $this->filename2 = $materiel->filename;
+        $this->filename3 = $materiel->filename;
+        if ($materiel->storage_path != null) {
             $this->url = $materiel->storage_path;
         } else {
             $this->url = "images/addphoto.png";
@@ -222,6 +227,52 @@ class MaterielsManagement extends Component
             'alert',
             ['type' => 'success',  'message' => 'Suppression éffectuée avec succès!']
         );
+    }
+
+    public function sortie()
+    {
+
+        $sortie = new SortieMateriel();
+        $sortie->category_id = $this->category_id2;
+        $sortie->marque_id = $this->marque_id2;
+        $sortie->model_id = $this->model_id2;
+        $sortie->materiel_id = $this->materiel_id;
+        $sortie->num_patrimoine = $this->num_patrimoine2;
+        $sortie->raison = $this->raison;
+        $sortie->date_sortie = $this->date_sortie;
+        $sortie->direction = $this->direction;
+        $sortie->service = $this->service;
+        $sortie->site = $this->site;
+        $sortie->submitedby = $this->submitedby;
+        $query = $sortie->save();
+        if ($query) {
+            $materiel = Materiel::find($this->materiel_id);
+            $query2 = $materiel->update([
+                'status' => "no",
+            ]);
+            if ($query2) {
+                $this->close_modal();
+                $this->getMateriels();
+                $this->dispatchBrowserEvent(
+                    'alert',
+                    ['type' => 'success',  'message' => 'Sortie réussie !']
+                );
+                $this->dispatchBrowserEvent('close-modal');
+            } else {
+                $this->dispatchBrowserEvent(
+                    'alert',
+                    ['type' => 'error',  'message' => "Erreur lors de la sortie !"]
+                );
+                $this->dispatchBrowserEvent('close-modal');
+            }
+        } else {
+
+            $this->dispatchBrowserEvent(
+                'alert',
+                ['type' => 'error',  'message' => "Erreur lors de la sortie !"]
+            );
+            $this->dispatchBrowserEvent('close-modal');
+        }
     }
 
     public function render()

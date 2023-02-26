@@ -52,8 +52,10 @@ class ModelsManagement extends Component
     {
         $this->models = Models::where('name', 'Like', '%' . $this->search . '%')-> 
         with('category')->
-        with('marque')->
-        with('materiels')->
+        with('marque')-> 
+        with(['materiels' => function ($query) {
+            $query->where('status', 'yes');
+        }])->
         orderBy("name", "asc")->get(); 
 
     }
