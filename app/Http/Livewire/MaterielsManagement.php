@@ -133,7 +133,7 @@ class MaterielsManagement extends Component
     {
         $materiel = Materiel::find($this->materiel_id);
         if ($this->filename2 != $materiel->filename) {
-            $image_name = time() . '.' . $this->filename2->getClientOriginalName() . $this->filename2->extension();
+            $image_name = time() . '.' . $this->filename2->getClientOriginalName();
             $public_path = "public/images/" . $image_name;
             $storage_path = "storage/images/" . $image_name;
             $this->filename2->storeAs('public/images', $image_name);

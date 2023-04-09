@@ -44,6 +44,7 @@ class UsersController extends Controller
             return back()->with('fail', "Il n'y a pas de compte qui correspond à cet email dans la base des données ! ");
         }
     }
+    
 
     public function logout()
     {
